@@ -70,6 +70,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+
 router.delete("/:id", async (req, res) => {
   try {
     const foodId = req.params.id;

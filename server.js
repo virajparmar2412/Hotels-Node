@@ -1,16 +1,14 @@
-// import db from "./db";
-// import express from "express";
-// const app = express();
-// const db = require("./db");
-
 const express = require("express");
 const app = express();
-const db = require("./db.js");
+require("dotenv").config();
+const db = require("./db"); // MongoDB connection
+const personRoutes = require("./routes/personRoutes"); // Person router
+const menuRoutes = require("./routes/menuRoutes"); // Menu router
 
-const bodyParser = require("body-parser");
-app.use(bodyParser.json());
+// Middleware
+app.use(express.json()); // Parse JSON bodies (replaces body-parser)
 
-// console.log("Database module loaded, readyState:", db.readyState);
+// Routes
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
@@ -23,10 +21,11 @@ app.post("/drink", (req, res) => {
   res.send("Data is stored");
 });
 
-const personRoutes = require("./routes/personRoutes");
 app.use("/person", personRoutes);
-
-const menuRoutes = require("./routes/menuRoutes");
 app.use("/menu", menuRoutes);
 
-app.listen(3000, () => console.log("listening to port 3000"));
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`listening to port ${PORT}`);
+});

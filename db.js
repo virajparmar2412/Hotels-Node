@@ -1,20 +1,24 @@
 const mongoose = require("mongoose");
-const mongoURL = "mongodb://localhost:27017/hotels";
+require("dotenv").config();
 
-mongoose.connect(mongoURL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const mongoURL = process.env.MONGODB_URL;
+// const mongoURL = process.env.MONGODB_URL_LOCAL;
+
+
+if (!mongoURL) {
+  console.error("Error: MONGODB_URL is not defined in .env file");
+  process.exit(1); // Exit if the URI is missing
+}
+
+mongoose
+  .connect(mongoURL)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+    process.exit(1);
+  });
 
 const db = mongoose.connection;
-
-db.on("connected", () => {
-  console.log("Connected to MongoDB");
-});
-
-db.on("error", (err) => {
-  console.error("MongoDB connection error: ", err);
-});
 
 db.on("disconnected", () => {
   console.log("MongoDB disconnected");
