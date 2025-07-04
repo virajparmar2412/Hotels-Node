@@ -19,7 +19,6 @@ const logRequest = (req, res, next) => {
   next();
 };
 
-
 app.use(logRequest);
 
 const localAuthMiddleware = passport.authenticate("local", { session: false });
