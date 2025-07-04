@@ -10,6 +10,7 @@ if (!mongoURL) {
   process.exit(1); // Exit if the URI is missing
 }
 
+
 mongoose
   .connect(mongoURL, {
     useNewUrlParser: true,
